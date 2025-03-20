@@ -3,16 +3,30 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));    
 
     if (loggedInUser) {
-        let userInfo = document.createElement('div');
+        let userInfo = document.createElement('header');
         userInfo.innerHTML = `
+             <h1>Movies</h1>
+     <div id="search-container">
+         <input type="text" id="search" placeholder="Search movies..." aria-label="Search movies">
+         <button id="search-btn" aria-label="Search">
+             <i class="fa-solid fa-magnifying-glass"></i>
+         </button>
+         
+     </div>
+        <div class="info">
             <div class="profile-container">
                 <div class="profile-icon">
                     <i class="fa-solid fa-user"></i>
                 </div>
                 <div class="profile-info">
-                    <h2>Welcome, ${loggedInUser.name}!</h2>
+                    <h2>Welcome,Divakar!</h2>
                 </div>
             </div>
+            <div class="headerbtn">
+               <button id="addmoviebtn">Add Movie</button>
+               <button id="logoutbtn">Log Out</button>
+           </div>
+        </div>
         `;
         document.body.prepend(userInfo);
         getmovies();
@@ -34,18 +48,31 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     function getmovies() {
-      const ajax = new XMLHttpRequest();
+      const ajax =   new XMLHttpRequest();
        ajax.open('GET', 'https://mimic-server-api.vercel.app/movies')
         ajax.onload = function () {
             let data = JSON.parse(ajax.response);
-              data.forEach(movie => {
+            data.forEach(movie => {
                 if (adult) {
                     if (adult === true) {
-                        movie.adult = '<span class="age-restricted adult-18">18+</span>';
+                        movie.adult = '<span class="age-restricted adult-18"><b>18+</b></span>';
                     } else {
-                        movie.adult = '<span class="age-restricted adult-16">16+</span>';
+                        movie.adult = '<span class="age-restricted adult-16"><b>16+</b></span>';
                     }
-                }                
+                }         
+                let languageMapping = {
+                    en: "English",
+                    ta: "Tamil",
+                    hi: "Hindi",
+                    fr: "French",
+                    es: "Spanish",
+                    zh: "Chinese",
+                    ja: "Japanese",
+                    ko: "Korean"
+                };
+                
+                movie.original_language = languageMapping[movie.original_language];
+                   
                     let genreMapping = {
                         28: "Action",
                         12: "Adventure",
@@ -59,17 +86,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
                         53: "Thriller"
                     };                   
                     movie.genre_ids = movie.genre_ids.map(id => genreMapping[Number(id)] || "Unknown");
-               
+                    
                 dashboard.innerHTML += `
             <div class="card">
                 <img src="${movie.poster_path}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">${movie.title}</h5>
-                    <p class="card-text"><span>original_language:</span> ${movie.original_language}</p>
-                    <p class="card-text"><span>release_date:</span> ${movie.release_date}</p>
-                    <p class="card-text" style='color:red'><span>Rating:</span> <i class="fa-solid fa-star" style="color: #FFD43B;"></i>${movie.vote_average}/10</p>
+                    <p class="card-text" style="color: black; font-weight: bold;"><span>original_language:</span> ${movie.original_language}</p>
+                    <p class="card-text" style="color: black; font-weight: bold;"><span>release_date:</span> ${movie.release_date}</p>
+                    <p class="card-text" style="color: red; font-weight: bold;"><span>Rating:</span> <i class="fa-solid fa-star" style="color: #FFD43B;"></i>${movie.vote_average}/10</p>
                     <p class="card-Adult"><span>Adult:</span> ${movie.adult}</p>
-                    <p class="card-Genre"><span>Genre:</span> ${movie.genre_ids}</p>
+                    <p class="card-Genre" style="color: black; font-weight: bold;"><span>Genre:</span> ${movie.genre_ids}</p>
                     <button class="btn btn-primary><a href="#">Book</a></button>
                 </div>
             </div>
