@@ -100,7 +100,7 @@
             <input type="email" name="email" id="email" required>
             <button type="submit" id="signinbtn">Log In</button>
         </form>
-        <p>Not a member? <a href="sign-up.html">Register an Account</a></p>
+        <p>Not a member? <a href="index-sign-up.html">Register an Account</a></p>
     </div>
 
     <script>
@@ -116,12 +116,12 @@
             if (storedUser) {
                 alert("Login successful! Redirecting to Dashboard...");
                 localStorage.setItem("loggedInUser", JSON.stringify(storedUser));
-                window.location.href = "dashboard.html";
+                window.location.href = "index-dashboard.html";
             } else {
                 alert("User not found. Please register.");
-                window.location.href = "sign-up.html";
+                window.location.href = "index-sign-up.html";
             }
         });
     </script>
-
+</body>
 </html>

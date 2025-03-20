@@ -105,7 +105,7 @@
             <input type="email" name="email" id="email" required>
             <button id="signupbtn">Register</button>
         </form>
-        <p>Already a member? <a href="sign-in.html">Log In</a></p>
+        <p>Already a member? <a href="index-sign-in.html">Log In</a></p>
     </div>
     <script>
         document.getElementById("signupbtn").addEventListener("click", function (event) {
@@ -125,7 +125,7 @@
 
             if (userExists) {
                 alert("Username or Email already exists. Please log in.");
-                window.location.href = "sign-in.html";
+                window.location.href = "index-sign-in.html";
                 return;
             }
 
@@ -135,10 +135,9 @@
             localStorage.setItem("loggedInUser", JSON.stringify(newUser));
 
             alert("Registration successful! Redirecting to Dashboard...");
-            window.location.href = "dashboard.html";
+            window.location.href = "index-dashboard.html";
         });
     </script>
 
 </body>
-
 </html>
